@@ -39,7 +39,9 @@ public class Controller {
     public String todayProducts() {
         StringWriter stringWriter = new StringWriter();
         PrintWriter out = new PrintWriter(stringWriter);
-        getHouses().forEach(out::println);
+        List<House> houses = getHouses();
+        houses.forEach(out::println);
+        try { houses.forEach(houseRepository::save); } catch (Exception e) { e.printStackTrace(); }
         return stringWriter.toString();
     }
 
@@ -63,10 +65,5 @@ public class Controller {
             e.printStackTrace();
             return Collections.EMPTY_LIST;
         }
-    }
-
-    @Scheduled(cron = "0 0 */4 * * *")
-    public void persist() {
-        getHouses().forEach(houseRepository::save);
     }
 }
