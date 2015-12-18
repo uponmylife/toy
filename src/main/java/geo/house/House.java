@@ -1,13 +1,21 @@
 package geo.house;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.apache.commons.codec.digest.DigestUtils;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Entity
 @Getter
-public class Product implements Comparable<Product> {
+@NoArgsConstructor
+public class House implements Comparable<House> {
+    @Id
+    private String id;
     private String name;
     private String dong;
     private Date date;
@@ -15,15 +23,16 @@ public class Product implements Comparable<Product> {
     private Long size;
     private String floor;
 
-    public Product(String name, String str) {
+    public House(String name, String str) {
         try {
             String[] a = str.split(" ");
             this.name = name;
             dong = a[1];
             date = new SimpleDateFormat("yyMMdd").parse(onlyDigit(a[2]));
             price = Integer.parseInt(onlyDigit(a[4]));
-            size = Math.round(Integer.parseInt(a[7].split("/")[0])/3.3);
+            size = Math.round(Integer.parseInt(a[7].split("/")[0]) / 3.3);
             floor = a[9];
+            id = DigestUtils.md5Hex(new SimpleDateFormat("yyyyMMdd").format(date) + name + dong + floor);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -34,7 +43,7 @@ public class Product implements Comparable<Product> {
     }
 
     @Override
-    public int compareTo(Product p) {
+    public int compareTo(House p) {
         return (int) (p.getDate().getTime() / 1000 - date.getTime() / 1000);
     }
 

@@ -1,0 +1,5 @@
+mvn clean package
+
+scp -P 22241 target/toy-1.0.jar geo@millky.com:/home/geo/toy
+
+ssh geo@millky.com -p 22241 '/home/geo/toy/restart'
