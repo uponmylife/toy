@@ -12,8 +12,6 @@ public class LandSource {
     @Id
     private String name;
     @Column(length = 2000)
-    private String url;
-    @Column(length = 2000)
-    private String data;
+    private String postData;
     private Boolean use;
 }
