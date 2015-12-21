@@ -25,7 +25,7 @@ public class HouseController {
     private HouseSourceRepository houseSourceRepository;
 
     @RequestMapping(value = "/house", produces = MediaType.TEXT_PLAIN_VALUE)
-    public String todayProducts() {
+    public String list() {
         StringWriter stringWriter = new StringWriter();
         PrintWriter out = new PrintWriter(stringWriter);
         List<House> houses = getHouses();
