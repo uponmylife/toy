@@ -26,7 +26,7 @@ public class Land {
         this.name = name;
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, year);
-        cal.set(Calendar.MONTH, month);
+        cal.set(Calendar.MONTH, month - 1);
         cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt((String) map.get("DEAL_DD")));
         this.date = new SimpleDateFormat("yyyyMMdd").format(cal.getTime());
         this.price = Integer.parseInt(StringUtil.onlyDigit((String) map.get("SUM_AMT")));
