@@ -41,7 +41,8 @@ public class House implements Comparable<House> {
 
     @Override
     public int compareTo(House p) {
-        return (int) (p.getDate().getTime() / 1000 - date.getTime() / 1000);
+        return p.getName().compareTo(name) * 10000 +
+                (int) (p.getDate().getTime() / (1000*60*60) - date.getTime() / (1000*60*60));
     }
 
     @Override
