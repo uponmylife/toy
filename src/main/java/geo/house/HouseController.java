@@ -57,6 +57,7 @@ public class HouseController {
                     .map(Element::text)
                     .map(text -> text.replace("회원인증 ", "").replace("현장 ", ""))
                     .map(text -> new House(productName, text))
+                    .filter(h -> h.getSize() > 30)
                     .collect(Collectors.toList());
         } catch (Exception e) {
             e.printStackTrace();

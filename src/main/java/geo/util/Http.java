@@ -178,7 +178,7 @@ public class Http {
     }
     
     public Response post(String url, String requestBody) throws IOException {
-        logger.debug("postData=[\n" + requestBody + "\n]");
+        logger.info("postData=[\n" + requestBody + "\n]");
         HttpPost httpPost = new HttpPost(url);
         httpPost.setEntity(new StringEntity(requestBody, "utf-8"));
         
@@ -206,7 +206,7 @@ public class Http {
             Response res = new Response(httpRes);
             logger.info("RES: " + res.getStatusCode() + " " + res.getReason() + " contentLen=" + res.getContentLength()
                     + " " + (System.currentTimeMillis()-time) + "ms");
-            logger.debug("content(max:1000)=\n" + StringUtils.left(res.getContentString(), 1000));
+            logger.info("content(max:1000)=\n" + StringUtils.left(res.getContentString(), 10000));
             return res;
         } finally {
             httpReq.releaseConnection();

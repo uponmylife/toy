@@ -1,18 +1,19 @@
 package geo.house;
 
 import geo.util.StringUtil;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
-@Getter
+@Data
 @NoArgsConstructor
 public class House implements Comparable<House> {
     @Id
@@ -23,6 +24,8 @@ public class House implements Comparable<House> {
     private Integer price;
     private Long size;
     private String floor;
+    @Transient
+    private String plan = "";
 
     public House(String name, String str) {
         try {
@@ -42,12 +45,25 @@ public class House implements Comparable<House> {
     @Override
     public int compareTo(House p) {
         return p.getName().compareTo(name) * 10000 +
-                (int) (p.getDate().getTime() / (1000*60*60) - date.getTime() / (1000*60*60));
+                (int) (p.getDate().getTime() / (1000 * 60 * 60) - date.getTime() / (1000 * 60 * 60));
     }
 
     @Override
     public String toString() {
-        return String.format("%s %1.3g %s %d평 %s",
+        String plus = isSameDay(date, new Date()) ? "+" : "";
+        return plus + String.format("%s %1.3g %s %d평 %s",
                 new SimpleDateFormat("MM/dd").format(date), price / 10000.0, name, size, floor);
+    }
+
+    public String toString2() {
+        String plus = isSameDay(date, new Date()) ? "+" : "";
+        return plus + String.format("%s %1.3g %s %s%s %s",
+                new SimpleDateFormat("MM/dd").format(date), price / 10000.0, name, dong, plan, floor);
+    }
+
+
+    private boolean isSameDay(Date d1, Date d2) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+        return df.format(d1).equals(df.format(d2));
     }
 }

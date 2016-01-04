@@ -30,7 +30,7 @@ public class Land {
         cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt((String) map.get("DEAL_DD")));
         this.date = new SimpleDateFormat("yyyyMMdd").format(cal.getTime());
         this.price = Integer.parseInt(StringUtil.onlyDigit((String) map.get("SUM_AMT")));
-        this.floor = Integer.parseInt((String) map.get("APTFNO"));
+        this.floor = ((Double) map.get("APTFNO")).intValue();
         this.id =  DigestUtils.md5Hex(name + date + floor);
     }
 

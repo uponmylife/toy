@@ -37,12 +37,19 @@ public class LandController {
     public String store(@PathVariable Integer year) {
         landSourceRepository.findAllByUse(true).stream()
                 .map(s -> getLands(s.getName(), year, s.getPostData()))
-                .forEach(landRepository::save);
+                .forEach(lands -> lands.forEach(land -> {
+                    try {
+                        landRepository.save(land);
+                    } catch (Exception e) {
+                        System.err.println("land=" + land);
+                        e.printStackTrace();
+                    }
+                }));
         return "ok";
     }
 
     private List<Land> getLands(String name, Integer year, String postData) {
-        String url = "http://rt.molit.go.kr/rtSearch.do?cmd=getAptTradeMonthListAjax";
+        String url = "http://rt.molit.go.kr/srh/getMonthListAjax.do";
         List<Land> lands = new ArrayList<>();
         try {
             Map<String, List<Map>> map = post(url, postData.replace("{YEAR}", year.toString()));
